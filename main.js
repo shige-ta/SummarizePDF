@@ -16,27 +16,24 @@ const pdfText = document.getElementById("pdf-text");
 // }
 
 async function sendQuestion(question) {
-  console.log(question);
-  try {
-    const response = await fetch("http://localhost:3000/api/chatgpt", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ question: question }),
-    });
+  // console.log(question);
+  const response = await fetch("http://localhost:3000/api/chatgpt", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ question: question }),
+  });
 
-    if (!response.ok) {
-      const error = await response.json();
-      console.error("Error:", error.message, "Details:", error.details);
-      return;
-    }
-
-    const data = await response.json();
-    console.log(data.answer);
-  } catch (error) {
-    console.error("Error:", error.message);
+  if (!response.ok) {
+    const error = await response.json();
+    console.error("Error:", error.message, "Details:", error.details);
+    return;
   }
+
+  const data = await response.json();
+  console.log(data);
+  return data;
 }
 
 pdfFile.addEventListener("change", async (event) => {
@@ -61,7 +58,7 @@ pdfFile.addEventListener("change", async (event) => {
 
   // pdfText.textContent = extractedText;
 
-  pdfText.textContent = sendQuestion(extractedText);
+  pdfText.textContent = sendQuestion(extractedText).toString;
 
-  console.log(pdfText.textContent);
+  console.log(pdfText.textContent.toString);
 });
